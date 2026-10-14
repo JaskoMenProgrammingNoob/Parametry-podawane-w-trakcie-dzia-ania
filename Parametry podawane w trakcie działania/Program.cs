@@ -1,129 +1,62 @@
-﻿class Program
+﻿using System;
+class Pierwiastek
 {
-    bool sukces;
-
-
-    double a = 0;
-    double b = 0;
-    double c = 0;
-    double delta = 0;
-    double x1 = 0;
-    double x2 = 0;
-    double x0 = 0;
-    string[] zmienne = { "a", "b", "c" };
-    int numer_zmiennej = 0;
-    double liczba = 0;
-    public void Pobierz_liczbę()
+    public static double pobierzLiczbe(string param)
     {
+        double liczba = 0;
+        bool sukces;
         do
         {
+            Console.Write("Proszę podać {0} parametr równania: ", param);
             try
             {
-                Console.WriteLine("Podaj zmienną: " + zmienne[(int)numer_zmiennej]);
-                liczba = double.Parse(Console.ReadLine());
-                switch (numer_zmiennej)
-                {
-                    case 0:
-                        if (liczba == 0)
-                        {
-                            Console.Clear();
-                            Console.WriteLine("To nie jest równanie kwadratowe: A = 0!");
-                            
-                        }
-                        
-                            a = liczba;
-                            
-                        
-                        break;
-                    case 1:
-                        b = liczba;
-                        
-                        break;
-                    case 2:
-                        c = liczba;
-                        
-
-
-                        sukces = true;
-                        break;
-                }
-                numer_zmiennej++;
-                
+                liczba = Double.Parse(Console.ReadLine());
+                sukces = true;
             }
             catch (Exception)
             {
-                Console.Clear();
-                Console.WriteLine("To nie jest prawidłowa liczba rzeczywista!");
-
+                Console.WriteLine(
+                "To nie jest prawidłowa liczba rzeczywista!");
                 sukces = false;
-                //return 
-                //program ma zaczynac prace od nowa jakby;
             }
-        } while (sukces == false);
+        }
+        while (!sukces);
+        return liczba;
     }
-    public void Oblicz_i_wyswietl()
+    public static void Main(string[] args)
     {
-        Console.WriteLine($"A: {a}");
-        Console.WriteLine($"B: {b}");
-        Console.WriteLine($"C: {c}");
-        Console.WriteLine();
-        delta = (b * b) - (4 * a * c);
-        Console.WriteLine();
-        if (a == 0)
+        double parametrA = pobierzLiczbe("pierwszy");
+        double parametrB = pobierzLiczbe("drugi");
+        double parametrC = pobierzLiczbe("trzeci");
+        Console.WriteLine("Wprowadzone parametry równania:\n");
+        Console.WriteLine("A = " + parametrA + ", B = " + parametrB +
+        ", C = " + parametrC + "\n");
+        if (parametrA == 0)
         {
-            Console.WriteLine("To funkcja liniowa!");
-            return;
+            Console.WriteLine("To nie jest równanie kwadratowe: A = 0!");
         }
         else
         {
-            Console.WriteLine($"Delta: {delta}");
+            double delta = parametrB * parametrB - 4 * parametrA * parametrC;
+            double wynik;
+            if (delta < 0)
+            {
+                Console.WriteLine("Delta < 0");
+                Console.WriteLine(
+                "Brak rozwiązań w zbiorze liczb rzeczywistych.");
+            }
+            else if (delta == 0)
+            {
+                wynik = -parametrB / (2 * parametrA);
+                Console.WriteLine("Rozwiązanie: x = " + wynik);
+            }
+            else
+            {
+                wynik = (-parametrB + Math.Sqrt(delta)) / (2 * parametrA);
+                Console.Write("Rozwiązanie: x1 = " + wynik);
+                wynik = (-parametrB - Math.Sqrt(delta)) / (2 * parametrA);
+                Console.WriteLine(", x2 = " + wynik);
+            }
         }
-        if (delta < 0)
-        {
-            Console.WriteLine("Brak pierwiastków rzeczywistych");
-        }
-        else if (delta == 0)
-        {
-            Console.WriteLine("Obliczam jedno miejsce zerowe: ");
-            x0 = -b / (2 * a);
-            Console.WriteLine($"x0: {x0:F2}");
-        }
-        else if (delta > 0)
-        {
-            Console.WriteLine("Obliczam dwa miejsca zerowe: ");
-            x1 = (-b - Math.Sqrt(delta) / (2 * a));
-            x2 = (-b + Math.Sqrt(delta) / (2 * a));
-            Console.WriteLine($"x1: {x1:F2}");
-            Console.WriteLine($"x2: {x2:F2}");
-        }
-
-    }
-    static void Main(string[] args)
-    {
-        Program program = new Program();
-        program.Pobierz_liczbę();
-        program.Oblicz_i_wyswietl();
-
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
